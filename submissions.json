@@ -1,0 +1,78 @@
+[
+  {
+    "timestamp": "2025-11-01 17:48:00",
+    "submission_id": "8415215890_1762004880",
+    "user_info": {
+      "user_id": 8415215890,
+      "username": null,
+      "first_name": ".",
+      "last_name": null
+    },
+    "form_type": "registration",
+    "button_text": "Qeydiyyat",
+    "data": {
+      "full_name": "AsifTest",
+      "email": "asifrzayev2006@gmail.com",
+      "phone": "+994503654390",
+      "course": "CompScience",
+      "experience": "yox"
+    }
+  },
+  {
+    "timestamp": "2025-11-01 17:49:33",
+    "submission_id": "8415215890_1762004973",
+    "user_info": {
+      "user_id": 8415215890,
+      "username": null,
+      "first_name": ".",
+      "last_name": null
+    },
+    "form_type": "registration",
+    "button_text": "Qeydiyyat",
+    "data": {
+      "full_name": "AsifTest",
+      "email": "asifrzayev2006@gmail.com",
+      "phone": "+994503654390",
+      "course": "Computer science",
+      "experience": "yox"
+    }
+  },
+  {
+    "timestamp": "2025-11-01 17:55:10",
+    "submission_id": "8415215890_1762005310",
+    "user_info": {
+      "user_id": 8415215890,
+      "username": null,
+      "first_name": ".",
+      "last_name": null
+    },
+    "form_type": "registration",
+    "button_text": "Qeydiyyat",
+    "data": {
+      "full_name": "Filankes",
+      "email": "Filankesovlu",
+      "phone": "+9932347289238479234",
+      "course": "Comp Science",
+      "experience": "Yoxdu"
+    }
+  },
+  {
+    "timestamp": "2025-11-01 18:14:39",
+    "submission_id": "8415215890_1762006479",
+    "user_info": {
+      "user_id": 8415215890,
+      "username": null,
+      "first_name": ".",
+      "last_name": null
+    },
+    "form_type": "registration",
+    "button_text": "Qeydiyyat",
+    "data": {
+      "full_name": "ahdfkjdhfs",
+      "email": "shkdfh",
+      "phone": "sdjkfh",
+      "course": "sdjkf",
+      "experience": "sdhkf"
+    }
+  }
+]
