@@ -1,3 +1,4 @@
+import html
 from telegram import Update
 from telegram.ext import ContextTypes
 from services.session_service import get_session, reset_session
@@ -20,9 +21,22 @@ async def handle_lead(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         save_submission(session["lead_data"])
 
+        user_name = update.effective_user.full_name or "—"
+        username = update.effective_user.username
+        username_str = f"@{username}" if username else "—"
+        contact_link = f"tg://user?id={user_id}"
         await context.bot.send_message(
             chat_id=ADMIN_CHAT_ID,
-            text=f"[LEAD]\nCompany: {session['lead_data']['company']}\nEmail: {session['lead_data']['email']}"
+            text=(
+                f"📩 [LEAD]\n\n"
+                f"Şirkət: {html.escape(session['lead_data']['company'])}\n"
+                f"Email: {html.escape(session['lead_data']['email'])}\n"
+                f"İstifadəçi: {user_name}\n"
+                f"Laqab: {username_str}\n"
+                f"ID: <code>{user_id}</code>\n"
+                f"Əlaqə: <a href=\"{contact_link}\">Söhbətə keç</a>"
+            ),
+            parse_mode="HTML",
         )
 
         await update.message.reply_text("✅ Thank you. Our team will contact you shortly.")
