@@ -1,12 +1,17 @@
 import html
 from telegram import Update
 from telegram.ext import ContextTypes
-from services.session_service import get_session, reset_session
-from config import ADMIN_CHAT_ID
 
-async def handle_ir(update: Update, context: ContextTypes.DEFAULT_TYPE):
+from config import ADMIN_CHAT_ID
+from i18n import t
+from services.session_service import get_session, reset_session
+from services.user_store import get_user_lang
+
+
+async def handle_ir(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
     session = get_session(user_id)
+    lang = await get_user_lang(user_id)
 
     if session["lead_step"] == "incident":
         description = update.message.text
@@ -28,5 +33,5 @@ async def handle_ir(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode="HTML",
         )
 
-        await update.message.reply_text("🚨 Incident reported. Our team is responding immediately.")
+        await update.message.reply_text(t(lang, "ir_confirmed"))
         reset_session(user_id)

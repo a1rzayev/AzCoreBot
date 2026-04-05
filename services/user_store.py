@@ -32,6 +32,11 @@ async def _flush() -> None:
             json.dump(_store, f, ensure_ascii=False, indent=2)
 
 
+def has_user_lang(user_id: int) -> bool:
+    """Return True if *user_id* has ever chosen a language."""
+    return str(user_id) in _store
+
+
 async def get_user_lang(user_id: int) -> str:
     """Return the saved language for *user_id*, or DEFAULT_LANGUAGE if not set."""
     return _store.get(str(user_id), DEFAULT_LANGUAGE)

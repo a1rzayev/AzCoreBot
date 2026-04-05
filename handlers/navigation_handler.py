@@ -1,80 +1,70 @@
+"""Handle nav:* and svc:* inline button callbacks."""
 from telegram import Update
 from telegram.error import BadRequest
 from telegram.ext import ContextTypes
-from data.templates import TEMPLATES
-from utils.keyboards import build_keyboard
-from services.session_service import get_session
 
-async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE):
+from data.templates import TEMPLATES
+from i18n import t
+from services.session_service import get_session, reset_session
+from services.user_store import get_user_lang
+from utils.keyboards import build_nav_keyboard
+
+
+async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
 
+    data = query.data
     user_id = query.from_user.id
-    session = get_session(user_id)
+    lang = await get_user_lang(user_id)
 
-    choice = query.data
-    state = session["state"]
+    if data.startswith("nav:"):
+        state = data[4:]
+        session = get_session(user_id)
 
-    # Ana menyu
-    if choice == "🛡 Xidmətlər":
-        session["state"] = "services"
-    elif choice == "📞 Əlaqə":
-        session["state"] = "contact"
-        session["lead_step"] = "company"
-    elif choice == "🚨 İnsidentə Cavab":
-        session["state"] = "incident"
-        session["lead_step"] = "incident"
-    # Xidmətlər alt kateqoriyaları
-    elif choice == "🌐 Web":
-        session["state"] = "services_web"
-    elif choice == "🔗 Şəbəkə":
-        session["state"] = "services_network"
-    elif choice == "💻 Sistem":
-        session["state"] = "services_system"
-    elif choice == "👷 Texniki Komanda":
-        session["state"] = "services_tech"
-    elif choice == "📡 Təkliflər":
-        session["state"] = "services_offers"
-    elif choice == "📅 Dəstək (bir dəfəlik / aylıq)":
-        session["state"] = "services_support"
-    # Geri
-    elif choice == "⬅ Geri":
-        if state.startswith("services_"):
-            session["state"] = "services"
+        if state == "start":
+            reset_session(user_id)
+            session = get_session(user_id)
+        elif state == "contact":
+            session["state"] = "contact"
+            session["lead_step"] = "company"
+        elif state == "incident":
+            session["state"] = "incident"
+            session["lead_step"] = "incident"
         else:
-            session["state"] = "start"
-    # Seçilmiş xidmət (alt səviyyə) — təsvir soruş
-    elif state.startswith("services_") and choice != "⬅ Geri":
-        session["state"] = "service_request"
-        session["selected_service"] = choice
-        _category_names = {
-            "services_web": "Web",
-            "services_network": "Şəbəkə",
-            "services_system": "Sistem",
-            "services_tech": "Texniki Komanda",
-            "services_offers": "Təkliflər",
-            "services_support": "Dəstək (bir dəfəlik / aylıq)",
-        }
-        session["selected_category"] = _category_names.get(state, state)
+            session["state"] = state
+
+        template = TEMPLATES.get(state, TEMPLATES["start"])
+        keyboard = build_nav_keyboard(template["buttons"], lang)
+
         try:
             await query.edit_message_text(
-                f"📩 Seçdiyiniz xidmət: {choice}\n\n"
-                "Zəhmət olmasa sorğunuzun təsvirini yazın:"
+                t(lang, template["text_key"]),
+                reply_markup=keyboard,
             )
         except BadRequest as e:
             if "message is not modified" not in str(e).lower():
                 raise
-        return
 
-    template = TEMPLATES.get(session["state"], TEMPLATES["start"])
-    keyboard = build_keyboard(template["buttons"]) if template["buttons"] else None
+    elif data.startswith("svc:"):
+        label_key = data[4:]
+        session = get_session(user_id)
 
-    try:
-        await query.edit_message_text(
-            template["text"],
-            reply_markup=keyboard
-        )
-    except BadRequest as e:
-        if "message is not modified" not in str(e).lower():
-            raise
-        # User e.g. double-tapped same button; message already shows this content — ignore
+        service_name = t(lang, label_key)
+        # Capture the category from the current state before switching
+        current_state = session.get("state", "services")
+        category_tmpl = TEMPLATES.get(current_state, {})
+        category_key = category_tmpl.get("text_key")
+        category_name = t(lang, category_key) if category_key else "—"
+
+        session["state"] = "service_request"
+        session["selected_service"] = service_name
+        session["selected_category"] = category_name
+
+        try:
+            await query.edit_message_text(
+                t(lang, "service_request_prompt", {"service": service_name})
+            )
+        except BadRequest as e:
+            if "message is not modified" not in str(e).lower():
+                raise

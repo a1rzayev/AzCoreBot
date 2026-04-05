@@ -2,22 +2,27 @@
 import html
 from telegram import Update
 from telegram.ext import ContextTypes
-from services.session_service import get_session, reset_session
+
 from config import ADMIN_CHAT_ID
+from i18n import t
+from services.session_service import get_session, reset_session
+from services.user_store import get_user_lang
 
 
 async def handle_service_request(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
     session = get_session(user_id)
+    lang = await get_user_lang(user_id)
+
     description = update.message.text.strip()
     category = session.get("selected_category", "—")
     service = session.get("selected_service", "—")
 
-    # Admin-ə göndər (əlaqə üçün ID və link)
     user_name = update.effective_user.full_name or "İstifadəçi"
     username = update.effective_user.username
     username_str = f"@{username}" if username else "—"
     contact_link = f"tg://user?id={user_id}"
+
     await context.bot.send_message(
         chat_id=ADMIN_CHAT_ID,
         text=(
@@ -33,7 +38,5 @@ async def handle_service_request(update: Update, context: ContextTypes.DEFAULT_T
         parse_mode="HTML",
     )
 
-    await update.message.reply_text(
-        "✅ Sorğunuz qeydə alındı. Komandamız tezliklə sizinlə əlaqə saxlayacaq."
-    )
+    await update.message.reply_text(t(lang, "service_request_confirmed"))
     reset_session(user_id)

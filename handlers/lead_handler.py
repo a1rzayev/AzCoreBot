@@ -1,21 +1,26 @@
 import html
 from telegram import Update
 from telegram.ext import ContextTypes
+
+from config import ADMIN_CHAT_ID
+from i18n import t
 from services.session_service import get_session, reset_session
 from services.submission_service import save_submission
-from config import ADMIN_CHAT_ID
+from services.user_store import get_user_lang
 
-async def handle_lead(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+async def handle_lead(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
     session = get_session(user_id)
+    lang = await get_user_lang(user_id)
 
     if session["lead_step"] == "company":
         session["lead_data"]["company"] = update.message.text
         session["lead_step"] = "email"
-        await update.message.reply_text("Enter your email:")
+        await update.message.reply_text(t(lang, "lead_email_prompt"))
         return
 
-    elif session["lead_step"] == "email":
+    if session["lead_step"] == "email":
         session["lead_data"]["email"] = update.message.text
         session["lead_step"] = None
 
@@ -25,6 +30,7 @@ async def handle_lead(update: Update, context: ContextTypes.DEFAULT_TYPE):
         username = update.effective_user.username
         username_str = f"@{username}" if username else "—"
         contact_link = f"tg://user?id={user_id}"
+
         await context.bot.send_message(
             chat_id=ADMIN_CHAT_ID,
             text=(
@@ -39,5 +45,5 @@ async def handle_lead(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode="HTML",
         )
 
-        await update.message.reply_text("✅ Thank you. Our team will contact you shortly.")
+        await update.message.reply_text(t(lang, "lead_thank_you"))
         reset_session(user_id)
