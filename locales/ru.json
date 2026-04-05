@@ -1,0 +1,7 @@
+{
+  "welcome": "👋 Добро пожаловать в AzCore Assistant, {name}!\n\nПожалуйста, сделайте выбор:",
+  "choose_language": "🌐 Выберите язык:",
+  "language_changed": "✅ Язык изменён на Русский!",
+  "help": "ℹ️ Помощь",
+  "back": "⬅ Назад"
+}

@@ -1,0 +1,7 @@
+{
+  "welcome": "👋 Welcome to AzCore Assistant, {name}!\n\nPlease make a selection:",
+  "choose_language": "🌐 Choose your language:",
+  "language_changed": "✅ Language changed to English!",
+  "help": "ℹ️ Help",
+  "back": "⬅ Back"
+}
