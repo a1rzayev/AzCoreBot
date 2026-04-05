@@ -13,7 +13,8 @@ from telegram.ext import (
 
 from config import BOT_TOKEN
 from handlers.start_handler import start
-from handlers.navigation_handler import handle_navigation
+from handlers.language_handler import handle_language
+from handlers.callback_router import handle_callback
 from handlers.text_handler import handle_text
 
 logging.basicConfig(
@@ -37,7 +38,8 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
 def build_app():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CallbackQueryHandler(handle_navigation))
+    app.add_handler(CommandHandler("language", handle_language))
+    app.add_handler(CallbackQueryHandler(handle_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
     app.add_error_handler(error_handler)
     return app
