@@ -10,8 +10,8 @@ if not BOT_TOKEN:
     print("Error: Set BOT_TOKEN or API_TOKEN in .env", file=sys.stderr)
     sys.exit(1)
 
-_admin = os.getenv("ADMIN_CHAT_ID")
-if not _admin:
-    print("Error: Set ADMIN_CHAT_ID in .env (your Telegram chat ID for lead/incident alerts)", file=sys.stderr)
+_admin_raw = os.getenv("ADMIN_CHAT_IDS") or os.getenv("ADMIN_CHAT_ID")
+if not _admin_raw:
+    print("Error: Set ADMIN_CHAT_IDS in .env (comma-separated Telegram chat IDs)", file=sys.stderr)
     sys.exit(1)
-ADMIN_CHAT_ID = int(_admin)
+ADMIN_CHAT_IDS: list[int] = [int(x.strip()) for x in _admin_raw.split(",") if x.strip()]

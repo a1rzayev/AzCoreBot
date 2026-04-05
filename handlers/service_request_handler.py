@@ -3,10 +3,10 @@ import html
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from config import ADMIN_CHAT_ID
 from i18n import t
 from services.session_service import get_session, reset_session
 from services.user_store import get_user_lang
+from utils.notify import notify_admins
 
 
 async def handle_service_request(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -23,19 +23,16 @@ async def handle_service_request(update: Update, context: ContextTypes.DEFAULT_T
     username_str = f"@{username}" if username else "—"
     contact_link = f"tg://user?id={user_id}"
 
-    await context.bot.send_message(
-        chat_id=ADMIN_CHAT_ID,
-        text=(
-            f"📩 Xidmət sorğusu\n\n"
-            f"Kateqoriya: {category}\n"
-            f"Xidmət: {service}\n"
-            f"İstifadəçi: {user_name}\n"
-            f"Laqab: {username_str}\n"
-            f"ID: <code>{user_id}</code>\n"
-            f"Əlaqə: <a href=\"{contact_link}\">Söhbətə keç</a>\n\n"
-            f"Təsvir:\n{html.escape(description)}"
-        ),
-        parse_mode="HTML",
+    await notify_admins(
+        context.bot,
+        f"📩 Xidmət sorğusu\n\n"
+        f"Kateqoriya: {category}\n"
+        f"Xidmət: {service}\n"
+        f"İstifadəçi: {user_name}\n"
+        f"Laqab: {username_str}\n"
+        f"ID: <code>{user_id}</code>\n"
+        f"Əlaqə: <a href=\"{contact_link}\">Söhbətə keç</a>\n\n"
+        f"Təsvir:\n{html.escape(description)}",
     )
 
     await update.message.reply_text(t(lang, "service_request_confirmed"))
