@@ -1,10 +1,11 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
+from data.templates import TEMPLATES
 from i18n import t
 from services.session_service import reset_session
 from services.user_store import get_user_lang
-from utils.keyboards import main_menu_keyboard
+from utils.keyboards import build_keyboard
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -16,5 +17,5 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await update.message.reply_text(
         t(lang, "welcome", {"name": name}),
-        reply_markup=main_menu_keyboard(lang),
+        reply_markup=build_keyboard(TEMPLATES["start"]["buttons"]),
     )

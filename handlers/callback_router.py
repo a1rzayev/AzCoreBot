@@ -12,9 +12,10 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from config.languages import SUPPORTED_LANGS
+from data.templates import TEMPLATES
 from i18n import t
 from services.user_store import get_user_lang, set_user_lang
-from utils.keyboards import back_keyboard, language_keyboard, main_menu_keyboard
+from utils.keyboards import back_keyboard, build_keyboard, language_keyboard
 
 
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -33,7 +34,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         await query.answer(t(lang, "language_changed"))
         await query.edit_message_text(
             t(lang, "welcome", {"name": name}),
-            reply_markup=main_menu_keyboard(lang),
+            reply_markup=build_keyboard(TEMPLATES["start"]["buttons"]),
         )
 
     elif data == "back_main":
@@ -42,7 +43,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         await query.answer()
         await query.edit_message_text(
             t(lang, "welcome", {"name": name}),
-            reply_markup=main_menu_keyboard(lang),
+            reply_markup=build_keyboard(TEMPLATES["start"]["buttons"]),
         )
 
     elif data == "menu_language":
