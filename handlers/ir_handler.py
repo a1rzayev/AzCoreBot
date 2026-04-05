@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes
 from i18n import t
 from services.session_service import get_session, reset_session
 from services.user_store import get_user_lang
+from utils.keyboards import new_request_keyboard
 from utils.notify import notify_admins
 
 
@@ -30,5 +31,8 @@ async def handle_ir(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             f"Təsvir: {html.escape(description)}",
         )
 
-        await update.message.reply_text(t(lang, "ir_confirmed"))
+        await update.message.reply_text(
+            t(lang, "ir_confirmed"),
+            reply_markup=new_request_keyboard(lang),
+        )
         reset_session(user_id)

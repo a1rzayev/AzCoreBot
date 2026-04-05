@@ -48,5 +48,6 @@
   "service_request_confirmed": "✅ Sorğunuz qeydə alındı. Komandamız tezliklə sizinlə əlaqə saxlayacaq.",
   "lead_email_prompt": "📧 E-poçt ünvanınızı daxil edin:",
   "lead_thank_you": "✅ Təşəkkür edirik! Komandamız tezliklə sizinlə əlaqə saxlayacaq.",
-  "ir_confirmed": "🚨 İnsident qeydə alındı. Komandamız dərhal cavab verir."
+  "ir_confirmed": "🚨 İnsident qeydə alındı. Komandamız dərhal cavab verir.",
+  "btn_new_request": "🔄 Yeni Sorğu"
 }

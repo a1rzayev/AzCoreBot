@@ -38,6 +38,13 @@ def language_keyboard(current_lang: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(rows)
 
 
+def new_request_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Single button shown after a completed request — goes back to the start menu."""
+    return InlineKeyboardMarkup(
+        [[InlineKeyboardButton(t(lang, "btn_new_request"), callback_data="nav:start")]]
+    )
+
+
 def back_keyboard(lang: str) -> InlineKeyboardMarkup:
     """Single-button keyboard: ← Back → back_main."""
     return InlineKeyboardMarkup(
