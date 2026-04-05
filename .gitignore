@@ -34,6 +34,7 @@ Thumbs.db
 # Logs and local data
 *.log
 data/submissions.json
+data/users.json
 
 # Cursor
 .cursor/
