@@ -6,7 +6,7 @@ from i18n import t
 from services.session_service import get_session, reset_session
 from services.submission_service import save_submission
 from services.user_store import get_user_lang
-from utils.keyboards import new_request_keyboard
+from utils.keyboards import post_request_keyboard
 from utils.notify import notify_admins
 
 
@@ -45,6 +45,6 @@ async def handle_lead(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
         await update.message.reply_text(
             t(lang, "lead_thank_you"),
-            reply_markup=new_request_keyboard(lang),
+            reply_markup=post_request_keyboard(lang),
         )
         reset_session(user_id)

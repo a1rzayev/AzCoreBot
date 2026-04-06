@@ -38,8 +38,16 @@ def language_keyboard(current_lang: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(rows)
 
 
+def post_request_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Shown after a completed request: leave a comment or start a new request."""
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton(t(lang, "btn_leave_comment"), callback_data="leave_comment")],
+        [InlineKeyboardButton(t(lang, "btn_new_request"),   callback_data="nav:start")],
+    ])
+
+
 def new_request_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Single button shown after a completed request — goes back to the start menu."""
+    """Single button shown after a comment is submitted."""
     return InlineKeyboardMarkup(
         [[InlineKeyboardButton(t(lang, "btn_new_request"), callback_data="nav:start")]]
     )

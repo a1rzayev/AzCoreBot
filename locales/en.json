@@ -50,5 +50,8 @@
   "lead_email_prompt": "📧 Please enter your email address:",
   "lead_thank_you": "✅ Thank you! Our team will contact you shortly.",
   "ir_confirmed": "🚨 Incident reported. Our team is responding immediately.",
-  "btn_new_request": "🔄 New Request"
+  "btn_new_request": "🔄 New Request",
+  "btn_leave_comment": "💬 Leave a Comment",
+  "leave_comment_prompt": "💬 Please type your comment:",
+  "comment_received": "✅ Your comment has been sent. Thank you!"
 }

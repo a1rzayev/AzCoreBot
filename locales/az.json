@@ -50,5 +50,8 @@
   "lead_email_prompt": "📧 E-poçt ünvanınızı daxil edin:",
   "lead_thank_you": "✅ Təşəkkür edirik! Komandamız tezliklə sizinlə əlaqə saxlayacaq.",
   "ir_confirmed": "🚨 İnsident qeydə alındı. Komandamız dərhal cavab verir.",
-  "btn_new_request": "🔄 Yeni Sorğu"
+  "btn_new_request": "🔄 Yeni Sorğu",
+  "btn_leave_comment": "💬 Şərh yaz",
+  "leave_comment_prompt": "💬 Şərhinizi yazın:",
+  "comment_received": "✅ Şərhiniz göndərildi. Təşəkkür edirik!"
 }

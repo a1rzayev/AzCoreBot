@@ -16,6 +16,7 @@ from telegram.ext import ContextTypes
 from config.languages import SUPPORTED_LANGS
 from data.templates import TEMPLATES
 from i18n import t
+from services.session_service import get_session
 from services.user_store import get_user_lang, set_user_lang
 from utils.keyboards import back_keyboard, build_nav_keyboard, language_keyboard
 
@@ -67,6 +68,14 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             t(lang, "help"),
             reply_markup=back_keyboard(lang),
         )
+
+    # --- Leave a comment ---
+    elif data == "leave_comment":
+        lang = await get_user_lang(user_id)
+        session = get_session(user_id)
+        session["lead_step"] = "comment"
+        await query.answer()
+        await query.edit_message_text(t(lang, "leave_comment_prompt"))
 
     # --- Navigation & service callbacks ---
     elif data.startswith("nav:") or data.startswith("svc:"):
