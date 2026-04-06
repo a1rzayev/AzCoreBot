@@ -6,7 +6,7 @@ Each template has:
               label_key  : i18n key for the button label
               callback_data: stable routing token (never shown to user)
                 "nav:<state>"  – navigate to a named state
-                "svc:<key>"    – select a service item
+                "svc:<key>"    – select a service item (triggers request flow)
                 "settings"     – open settings (language picker)
 """
 
@@ -24,6 +24,7 @@ TEMPLATES = {
         "text_key": "services_text",
         "buttons": [
             ("btn_web",     "nav:services_web"),
+            ("btn_svc_erp", "svc:btn_svc_erp"),        # direct service — no sub-menu
             ("btn_network", "nav:services_network"),
             ("btn_system",  "nav:services_system"),
             ("btn_tech",    "nav:services_tech"),
@@ -38,7 +39,6 @@ TEMPLATES = {
             ("btn_svc_website", "svc:btn_svc_website"),
             ("btn_svc_tgbot",   "svc:btn_svc_tgbot"),
             ("btn_svc_apps",    "svc:btn_svc_apps"),
-            ("btn_svc_erp",     "svc:btn_svc_erp"),
             ("btn_back",        "nav:services"),
         ],
     },
@@ -74,22 +74,28 @@ TEMPLATES = {
     "services_offers": {
         "text_key": "services_offers_text",
         "buttons": [
-            ("btn_svc_optic", "svc:btn_svc_optic"),
-            ("btn_back",      "nav:services"),
+            ("btn_svc_optic",         "svc:btn_svc_optic"),
+            ("btn_svc_write_request", "svc:btn_svc_write_request"),
+            ("btn_back",              "nav:services"),
         ],
     },
     "services_support": {
         "text_key": "services_support_text",
         "buttons": [
-            ("btn_back", "nav:services"),
+            ("btn_svc_write_request", "svc:btn_svc_write_request"),
+            ("btn_back",              "nav:services"),
         ],
     },
     "contact": {
         "text_key": "contact_text",
-        "buttons": [],
+        "buttons": [
+            ("btn_back", "nav:start"),
+        ],
     },
     "incident": {
         "text_key": "incident_text",
-        "buttons": [],
+        "buttons": [
+            ("btn_back", "nav:start"),
+        ],
     },
 }

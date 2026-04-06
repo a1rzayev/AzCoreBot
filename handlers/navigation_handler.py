@@ -61,9 +61,11 @@ async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         session["selected_service"] = service_name
         session["selected_category"] = category_name
 
+        back_kb = build_nav_keyboard([("btn_back", f"nav:{current_state}")], lang)
         try:
             await query.edit_message_text(
-                t(lang, "service_request_prompt", {"service": service_name})
+                t(lang, "service_request_prompt", {"service": service_name}),
+                reply_markup=back_kb,
             )
         except BadRequest as e:
             if "message is not modified" not in str(e).lower():

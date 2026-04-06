@@ -32,6 +32,7 @@
   "btn_svc_tgbot": "Telegram Bot",
   "btn_svc_apps": "All types of applications (services, etc.)",
   "btn_svc_erp": "ERP/CRM/KPI System setup",
+  "btn_svc_write_request": "📝 Write your request",
   "btn_svc_routing": "Routing",
   "btn_svc_switching": "Switching",
   "btn_svc_firewall": "Firewall",
