@@ -9,6 +9,16 @@ from services.session_service import get_session, reset_session
 from services.user_store import get_user_lang
 from utils.keyboards import build_nav_keyboard
 
+# Reverse map: callback_data → label_key for every svc: button in TEMPLATES.
+# Used to translate service names in the request prompt regardless of how
+# the callback_data is formatted (e.g. "svc:website" → "btn_svc_website").
+_SVC_LABEL: dict[str, str] = {
+    cd: lk
+    for tmpl in TEMPLATES.values()
+    for lk, cd in tmpl.get("buttons", [])
+    if cd.startswith("svc:")
+}
+
 
 async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
@@ -47,7 +57,7 @@ async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                 raise
 
     elif data.startswith("svc:"):
-        label_key = data[4:]
+        label_key = _SVC_LABEL.get(data, data[4:])
         session = get_session(user_id)
 
         service_name = t(lang, label_key)
