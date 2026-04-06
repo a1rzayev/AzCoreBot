@@ -31,6 +31,7 @@
   "btn_svc_website": "Веб-сайт",
   "btn_svc_tgbot": "Telegram Бот",
   "btn_svc_apps": "Все типы приложений (сервисы и т.д.)",
+  "btn_svc_erp": "Внедрение ERP/CRM/KPI системы",
   "btn_svc_routing": "Маршрутизация",
   "btn_svc_switching": "Коммутация",
   "btn_svc_firewall": "Межсетевой экран",

@@ -38,6 +38,7 @@ TEMPLATES = {
             ("btn_svc_website", "svc:btn_svc_website"),
             ("btn_svc_tgbot",   "svc:btn_svc_tgbot"),
             ("btn_svc_apps",    "svc:btn_svc_apps"),
+            ("btn_svc_erp",     "svc:btn_svc_erp"),
             ("btn_back",        "nav:services"),
         ],
     },
